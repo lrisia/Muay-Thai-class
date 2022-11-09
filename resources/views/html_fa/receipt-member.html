@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Muay Thai Class Web Application</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>ใบเสร็จ</h1>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">ID ใบเสร็จ</th>
+            <th scope="col">ID ใบจองคลาสเรียน</th>
+            <th scope="col">ID คลาสเรียนมวยไทย</th>
+            <th scope="col">วันเวลาออกใบเสร็จ</th>
+            <th scope="col">ราคา</th>
+            <th scope="col">รายละเอียด</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="class : ${receipts}">
+            <td data-th-text="${(class.receiptId)}"></td>
+            <td data-th-text="${(class.receiptClassBookingDocId.getClassBookingDocId())}"></td>
+            <td data-th-text="${(class.receiptClassBookingDocId.getClassBookingDocMuayThaiClassId())}"></td>
+            <td data-th-text="${(class.datetime)}"></td>
+            <td data-th-text="${#numbers.formatDecimal(class.receiptPrice, 0, 'COMMA', 2, 'POINT')}"></td>
+            <td><button>รายละเอียด</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

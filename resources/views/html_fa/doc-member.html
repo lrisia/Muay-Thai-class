@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Muay Thai Class Web Application</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>ตรวจสอบใบจองคลาสเรียน</h1>
+    <form th:action="@{/doc/edit}" method="POST">
+        <div id="accept-success-msg" class="alert alert-success"
+             th:if="${acceptSuccess}"> อนุมัติการจองคลาสเรียนสำเร็จ
+        </div>
+        <div id="decline-success-msg" class="alert alert-success"
+             th:if="${declineSuccess}"> ปฏิเสธการจองคลาสเรียนสำเร็จ
+        </div>
+        <div id="accept-error-msg-1" class="alert alert-danger"
+             th:if="${acceptErrorStatusDeclined}">
+            <span th:text="${acceptErrorStatusDeclined}"></span>
+        </div>
+        <div id="accept-error-msg-2" class="alert alert-danger"
+             th:if="${acceptErrorStatusAccepted}">
+            <span th:text="${acceptErrorStatusAccepted}"></span>
+        </div>
+        <div id="decline-error-msg-1" class="alert alert-danger"
+             th:if="${declineErrorStatusAccept}">
+            <span th:text="${declineErrorStatusAccept}"></span>
+        </div>
+        <div id="decline-error-msg-2" class="alert alert-danger"
+             th:if="${declineErrorStatusDeclined}">
+            <span th:text="${declineErrorStatusDeclined}"></span>
+        </div>
+        <table id="table" class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">ID ใบจองคลาสเรียน</th>
+                <th scope="col">ชื่อผู้สอน</th>
+                <th scope="col">วันเปิด</th>
+                <th scope="col">วันปิด</th>
+                <th scope="col">จำนวนชั่วโมงเรียน</th>
+                <th scope="col">ราคา</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="class : ${docs}">
+                <td></td>
+                <td data-th-text="${class.classBookingDocId}"></td>
+                <td data-th-text="${class.teacher_name}"></td>
+                <td data-th-text="${class.open_date}"></td>
+                <td data-th-text="${class.close_date}"></td>
+                <td data-th-text="${class.total_class_hour}"></td>
+                <td data-th-text="${class.price}"></td>
+                <td data-th-text="${class.status}"></td>
+                <td><button>ชำระเงิน</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

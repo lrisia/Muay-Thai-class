@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Muay Thai Class Web Application</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>เพิ่ม
+        <small class="text-muted">คลาสเรียนมวยไทย</small>
+    </h1>
+    <form th:action="@{/class/add}" method="POST">
+
+        <div id="success-msg" class="alert alert-success"
+             th:if="${addSuccess}"> เพิ่มคลาสเรียนสำเร็จ
+        </div>
+        <div id="error-msg-1" class="alert alert-danger"
+             th:if="${addError}">
+            <span th:text="${addError}"></span>
+        </div>
+
+        <div class="mb-3">
+            dropdown เลือกครูผู้สอน (value id)
+        </div>
+
+        <div class="mb-3">
+            <label for="openDateInput" class="form-label">วันที่เปิดคลาสเรียน</label>
+            <input id="openDateInput" type="text" class="form-control" name="muayThaiClassOpenDate" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="closeDateInput" class="form-label">วันที่ปิดคลาสเรียน</label>
+            <input id="closeDateInput" type="text" class="form-control" name="muayThaiClassCloseDate" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="priceInput" class="form-label">ราคา</label>
+            <input id="priceInput" type="text" class="form-control" name="muayThaiClassPrice" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="maxMemberInput" class="form-label">จำนวนคนรับ</label>
+            <input id="maxMemberInput" type="text" class="form-control" name="max_member" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="hourInput" class="form-label">จำนวนชั่วโมงเรียน</label>
+            <input id="hourInput" type="text" class="form-control" name="muayThaiClassHour" required>
+        </div>
+
+        <button id="submitButton" type="submit" class="btn btn-dark">เพิ่มคลาสเรียน</button>
+    </form>
+</div>
+</body>
+</html>

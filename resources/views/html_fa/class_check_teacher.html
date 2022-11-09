@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Muay Thai Class Web Application</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>คลาสเรียนที่สอน</h1>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">ID คลาสเรียน</th>
+            <th scope="col">วันเปิด</th>
+            <th scope="col">วันปิด</th>
+            <th scope="col">จำนวนลง</th>
+            <th scope="col">จำนวนรับ</th>
+            <th scope="col">รายชื่อผู้เรียน</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="class : ${classes}">
+            <td data-th-text="${(class.muayThaiClassId)}"></td>
+            <td data-th-text="${(class.open_date)}"></td>
+            <td data-th-text="${class.close_date}"></td>
+            <td data-th-text="${class.enrolled_member}"></td>
+            <td data-th-text="${class.max_member}"></td>
+            <td><button>เช็กชื่อ</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
