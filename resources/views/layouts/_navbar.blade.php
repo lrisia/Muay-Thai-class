@@ -104,15 +104,15 @@
 
 <nav class="bg-gray-400 px-8 py-4 flex items-center">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
-    <div class="">
-        <a class="text-bold text-3xl" href="{{ url('/') }}">Muay Thai Class</a>
-    </div>
-    <div class="flex items-center">
-        <p class="mx-2 bg-white rounded-full py-2 px-4">name</p>
-        <p class="mx-2 bg-white rounded-full py-2 px-4">role</p>
-        <button class="mx-2 bg-red-400 rounded-full py-2 px-4 text-white hover:bg-red-500">
-            ออกจากระบบ
-        </button>
-    </div>
+        <div class="">
+            <a class="text-bold text-3xl" href="{{ url('/') }}">Muay Thai Class</a>
+        </div>
+        <div class="flex items-center">
+            <p class="mx-2 bg-white rounded-full py-2 px-4">name</p>
+            <p class="mx-2 bg-white rounded-full py-2 px-4">role</p>
+            <button class="mx-2 bg-red-400 rounded-full py-2 px-4 text-white hover:bg-red-500">
+                ออกจากระบบ
+            </button>
+        </div>
     </div>
 </nav>

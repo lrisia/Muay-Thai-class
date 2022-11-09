@@ -1869,6 +1869,14 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(49 196 141 / var(--tw-bg-opacity));
 }
+.bg-\[\#B3BA1E\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(179 186 30 / var(--tw-bg-opacity));
+}
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+}
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1892,6 +1900,9 @@ input:checked + .toggle-bg {
 }
 .p-1 {
   padding: 0.25rem;
+}
+.p-3 {
+  padding: 0.75rem;
 }
 .px-4 {
   padding-left: 1rem;
