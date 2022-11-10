@@ -16,7 +16,7 @@
                     <thead class="text-lg text-gray-700 bg-gray-200">
                     <tr>
                         <th scope="col" class="py-3 px-6">เวลาจอง</th>
-                        <th scope="col" class="py-3 px-6">ID Class</th>
+                        <th scope="col" class="py-3 px-6">ID คลาสเรียน</th>
                         <th scope="col" class="py-3 px-6">ID ใบจองคลาส</th>
                         <th scope="col" class="py-3 px-6">ชื่อผู้ลงทะเบียน</th>
                         <th scope="col" class="py-3 px-6">วันที่เปิด</th>

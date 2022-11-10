@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 50); // varchar(255)
             $table->string('username', 20)->unique(); // varchar(255)
             $table->string('email', 30)->nullable(); // chaining method
-            $table->string('phone', 10)->unique();
+            $table->string('phone', 20)->unique();
             $table->string('password'); // varchar(60)
             $table->string('role')->default('USER');
             $table->string('address');

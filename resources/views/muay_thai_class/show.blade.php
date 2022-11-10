@@ -12,7 +12,7 @@
                     <a href="{{ route('muay_thai_class.show', ['muay_thai_class' => 1]) }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ตรวจสอบใบจอง
                     </a>
-                    <a href="" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
+                    <a href="{{ route('class.receipt') }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ใบเสร็จ
                     </a>
                 </div>
@@ -71,8 +71,7 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200"
-                                                onclick="showPopup({{ $class }})">
+                                        <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200">
                                             ชำระเงิน
                                         </button>
                                     </div>
@@ -143,6 +142,7 @@
                                                     <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly>
                                                 </div>
                                             </div>
+                                            <input type="text" name="id" id="id" hidden>
                                             <button type="submit"
                                                     class="text-white bg-green-400 hover:bg-green-300 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                 ชำระเงิน
@@ -172,6 +172,7 @@
                                 document.getElementById("courseHours").value = course.muay_thai_class.total_class_hour;
                                 document.getElementById("coursePrice").value = course.muay_thai_class.price;
                                 document.getElementById("popup").hidden = false;
+                                document.getElementById("id").value = course.id;
                             }
 
                             function hidePopup() {

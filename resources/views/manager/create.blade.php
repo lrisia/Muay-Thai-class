@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="mt-4 overflow-x-auto relative shadow-md sm:rounded">
-                <form action="" method="post" enctype="multipart/form-data" class="grid-cols-4 grid gap-4 p-8">
+                <form action="{{ route('manager.create') }}" method="get" enctype="multipart/form-data" class="grid-cols-4 grid gap-4 p-8">
                     @csrf
                     <div class="flex justify-center items-center"><p class="">ครูผู้สอน</p></div>
                     <select type="text" class="rounded-lg" name="teacher" id="teacher">

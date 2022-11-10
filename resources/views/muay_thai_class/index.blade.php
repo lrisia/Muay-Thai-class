@@ -12,7 +12,7 @@
                     <a href="{{ route('muay_thai_class.show', ['muay_thai_class' => 1]) }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ตรวจสอบใบจอง
                     </a>
-                    <a href="" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
+                    <a href="{{ route('class.receipt') }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ใบเสร็จ
                     </a>
                 </div>
