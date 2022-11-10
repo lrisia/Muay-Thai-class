@@ -31,6 +31,8 @@ class MuayThaiClassController extends Controller
 //                dd($classes);
 //                $classes = $classes->where('id', $user->muayThaiClasses->pluck(['id'])->all());
                 return view('teacher.index', ['classes' => $classes]);
+            } else if (Auth::user()->role === "MANAGER") {
+                return view('manager.welcome');
             }
             $booking = BookingClass::where('user_id', $user->id)->get();
             $classes = $classes->whereNotIn('id', $booking->pluck(['muay_thai_class_id'])->all());
@@ -79,6 +81,7 @@ class MuayThaiClassController extends Controller
     public function show(User $user)
     {
         $user = Auth::user();
+        if ($user->role === "MANAGER") return redirect()->route('muay_thai_class.index');
         $classes = BookingClass::where('user_id', $user->id)->get();
         return view('muay_thai_class.show', [
             'user' => $user,

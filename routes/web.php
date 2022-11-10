@@ -28,3 +28,4 @@ Route::get('muay_thai_class/{id}/pay', [\App\Http\Controllers\MuayThaiClassContr
 Route::get('muay_thai_class/check', [\App\Http\Controllers\MuayThaiClassController::class, 'saveAttendance'])->name('class.check');
 
 Route::resource('/muay_thai_class', \App\Http\Controllers\MuayThaiClassController::class);
+Route::resource('/manager', \App\Http\Controllers\ManagerController::class);

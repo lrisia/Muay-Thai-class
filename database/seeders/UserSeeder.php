@@ -43,17 +43,21 @@ class UserSeeder extends Seeder
             $user->password = Hash::make('userpass');
             $user->save();
         }
-//        $user = User::where('email', 'staff02@example.com')->first();
-//        if (!$user) {
-//            $user = new User;
-//            $user->name = "Anya F.";
-//            $user->role = 'STAFF';
-//            $user->email = 'staff02@example.com';
-//            $user->password = Hash::make('staffpass');
-//            $user->organization_id = "2";
-//            $user->save();
-//        }
-//
+
+        $user = User::where('username', 'manager')->first();
+        if (!$user) {
+            $user = new User;
+            $user->name = "Anya F.";
+            $user->username = "Anya";
+            $user->phone = "0811111113";
+            $user->address = "admin home";
+            $user->hours = 1;
+            $user->role = 'MANAGER';
+            $user->email = 'manager@gmail.com';
+            $user->password = Hash::make('managerpass');
+            $user->save();
+        }
+
 //        $user = User::where('email', 'staff03@example.com')->first();
 //        if (!$user) {
 //            $user = new User;

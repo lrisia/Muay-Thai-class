@@ -23,6 +23,10 @@
                class="mx-2 bg-white rounded-full py-2 px-4 hover:bg-gray-100" @if(Route::currentRouteName() === 'login') current-page @endif" >
                 Login
             </a>
+            <a href="{{ route('register') }}"
+               class="mx-2 bg-white rounded-full py-2 px-4 hover:bg-gray-100 @if(Route::currentRouteName() === 'register') current-page @endif" >
+                Register
+            </a>
         </div>
         @endauth
     </div>

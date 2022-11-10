@@ -42,10 +42,10 @@
                                 {{ $class->MuayThaiClass->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->open_date }}
+                                {{ date('d-m-Y', strtotime($class->MuayThaiClass->open_date)) }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->close_date }}
+                                {{ date('d-m-Y', strtotime($class->MuayThaiClass->close_date)) }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->MuayThaiClass->total_class_hour }}
@@ -53,9 +53,9 @@
                             <td class="py-3 px-6">
                                 ฿ {{ $class->MuayThaiClass->price }}
                             </td>
-                            @if ($class->status == "in_progress")
+                            @if ($class->status == "accepted")
                             <td class="py-3 px-6">
-                                รอดำเนินการ
+                                รอชำระเงิน
                             </td>
                             <td>
                                 <div>
@@ -65,6 +65,18 @@
                                     </button>
                                 </div>
                             </td>
+                            @elseif ($class->status == "in_progress")
+                                <td class="py-3 px-6">
+                                    รอดำเนินการ
+                                </td>
+                                <td>
+                                    <div>
+                                        <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200"
+                                                onclick="showPopup({{ $class }})">
+                                            ชำระเงิน
+                                        </button>
+                                    </div>
+                                </td>
                             @elseif ($class->status == "paid")
                             <td class="py-3 px-6">
                                 ชำระเงินแล้ว
@@ -73,6 +85,17 @@
                                 <div>
                                     <button class="cursor-default text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-blue-400">
                                         ชำระสำเร็จ
+                                    </button>
+                                </div>
+                            </td>
+                            @elseif($class->status == "declined")
+                            <td class="py-3 px-6">
+                                ปฏิเสธการจอง
+                            </td>
+                            <td>
+                                <div>
+                                    <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200">
+                                        ชำระเงิน
                                     </button>
                                 </div>
                             </td>
