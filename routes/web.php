@@ -23,4 +23,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('muay_thai_class/{id}/attendance', [\App\Http\Controllers\MuayThaiClassController::class, 'attendance'])
+    ->name('class.attendance');
+
 Route::resource('/muay_thai_class', \App\Http\Controllers\MuayThaiClassController::class);

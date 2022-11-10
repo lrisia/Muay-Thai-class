@@ -88,8 +88,8 @@
                                         <div id="detail" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                             <div class="form-group">
                                                 <label for="idCourse">ID คลาสเรียนมวยไทย</label>
-                                                <input type="text" class="form-control" id="idCourse" name="idCourse" readonly">
-                                            </di>
+                                                <input type="text" class="form-control" id="idCourse" name="idCourse" readonly>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="nameTeacher">ชื่อครูผู้สอน</label>
                                                 <input type="text" class="form-control" id="nameTeacher" name="nameTeacher" readonly >
@@ -123,7 +123,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                     <style>
                         .form-control {

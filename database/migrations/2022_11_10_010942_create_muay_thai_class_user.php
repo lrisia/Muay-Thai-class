@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('muay_thai_class_user', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class);
+            $table->integer('studied_hour')->default(0);
             $table->foreignIdFor(\App\Models\MuayThaiClass::class);
             $table->timestamps();
         });

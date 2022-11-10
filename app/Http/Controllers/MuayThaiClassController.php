@@ -26,6 +26,13 @@ class MuayThaiClassController extends Controller
         $classes = MuayThaiClass::where('status', 'available')->get();
         if (Auth::user() != null) {
             $user = User::find(Auth::user()->id);
+            if (Auth::user()->role === "TEACHER") {
+//                dd($user->muayThaiClasses->pluck(['id'])->all());
+                $classes = MuayThaiClass::whereIn('id', $user->muayThaiClasses->pluck(['id'])->all())->get();
+//                dd($classes);
+//                $classes = $classes->where('id', $user->muayThaiClasses->pluck(['id'])->all());
+                return view('teacher.index', ['classes' => $classes]);
+            }
             $classes = $classes->whereNotIn('id', $user->muayThaiClasses->pluck(['id'])->all());
         }
         return view('muay_thai_class.index', ['classes' => $classes]);
@@ -116,5 +123,13 @@ class MuayThaiClassController extends Controller
     public function destroy(MuayThaiClass $muayThaiClass)
     {
         //
+    }
+
+    public function attendance(MuayThaiClass $class) {
+        $students = User::whereIn('id', $class->users->pluck(['id'])->all());
+        return view('teacher.attendance', [
+            'students', $students,
+            'class', $class
+        ]);
     }
 }
