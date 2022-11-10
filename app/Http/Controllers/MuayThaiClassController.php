@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookingClass;
 use App\Models\MuayThaiClass;
+use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +83,7 @@ class MuayThaiClassController extends Controller
     {
         $user = Auth::user();
         if ($user->role === "MANAGER") return redirect()->route('muay_thai_class.index');
-        $classes = BookingClass::where('user_id', $user->id)->get();
+        $classes = BookingClass::where('user_id', $user->id)->where('status', '!=', 'paid')->get();
         return view('muay_thai_class.show', [
             'user' => $user,
             'classes' => $classes
@@ -153,10 +154,66 @@ class MuayThaiClassController extends Controller
         return redirect()->route('muay_thai_class.index');
     }
 
-    public function buyCourse(MuayThaiClass $class, $id) {
-        $booking = BookingClass::find($id);
+    public function buyCourse(MuayThaiClass $class, $id, Request $request) {
+        $booking = BookingClass::find($request->get('id'));
         $booking->status = "paid";
         $booking->save();
+
+        $receipt = new Receipt();
+        $receipt->user_id = Auth::user()->id;
+//        dd($request->all());
+//        dd(BookingClass::where('muay_thai_class_id', $request->get('id'))->where('user_id', Auth::user()->id)->first());
+        $receipt->booking_class_id = BookingClass::where('muay_thai_class_id', $request->get('idCourse'))->where('user_id', Auth::user()->id)->first()->id;
+        $receipt->save();
         return redirect()->route('muay_thai_class.show', ['muay_thai_class' => $id]);
+    }
+
+    public function receipt() {
+        $classes = BookingClass::where('user_id', Auth::user()->id)->where('status', 'paid')->get();
+        return view('muay_thai_class.receipt', [
+            'classes' => $classes
+        ]);
+    }
+
+    public function showReceipt($id) {
+        $receipt = Receipt::where('id', $id)->first();
+        $book = BookingClass::where('id', $receipt->booking_class_id)->first();
+        $class = MuayThaiClass::where('id', $book->muay_thai_class_id)->first();
+        $price = $this->convert($class->price);
+        return view('muay_thai_class.bill', [
+            'receipt' => $receipt,
+            'class' => $class,
+            'book' => $book,
+            'price' => $price
+        ]);
+    }
+
+    function convert($number){
+        $txtnum1 = array('ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า','สิบ');
+        $txtnum2 = array('','สิบ','ร้อย','พัน','หมื่น','แสน','ล้าน');
+        $number = str_replace(",","",$number);
+        $number = str_replace(" ","",$number);
+        $number = str_replace("บาท","",$number);
+        $number = explode(".",$number);
+        if(sizeof($number)>2){
+            return $number;
+        }
+        $strlen = strlen($number[0]);
+        $convert = '';
+        for($i=0;$i<$strlen;$i++){
+            $n = substr($number[0], $i,1);
+            if($n != 0){
+                if($i==($strlen-1) AND $n==1){ $convert .=
+                    'เอ็ด'; }
+                elseif($i==($strlen-2) AND $n==2){
+                    $convert .= 'ยี่'; }
+                elseif($i==($strlen-2) AND $n==1){
+                    $convert .= ''; }
+                else{ $convert .= $txtnum1[$n]; }
+                $convert .= $txtnum2[$strlen-$i-1];
+            }
+        }
+        $convert .= 'บาทถ้วน';
+        return $convert;
     }
 }

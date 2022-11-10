@@ -37,7 +37,7 @@
                     <div class="flex justify-center items-center">
                         <p class="text-red-600">
                         วันที่เปิดจะต้องมากกว่าวันปัจจุบัน 1 วัน โดยจะไม่เกิน 3 เดือน และจะไม่สามารถมากกว่าวันที่ปิดได้
-                        
+
                         </p>
                     </div>
                     @endif
@@ -49,7 +49,7 @@
                     <div class="flex justify-center items-center">
                         <p class="text-red-600">
                         วันที่ปิดจะต้องมากกว่าวันปัจจุบัน 1 วัน โดยจะไม่เกิน 6 เดือน และจะไม่สามารถมากกว่าวันที่เปิดได้
-                        
+
                     </p>
                     </div>
                     @endif
