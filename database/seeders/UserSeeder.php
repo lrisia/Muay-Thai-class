@@ -26,21 +26,23 @@ class UserSeeder extends Seeder
             $user->hours = 10;
             $user->role = 'TEACHER';
             $user->email = 'irisia@gmail.com';
-            $user->password = Hash::make('adminpass');
+            $user->password = Hash::make('teachpass');
             $user->save();
         }
 
-//        $user = User::where('email', 'staff01@example.com')->first();
-//        if (!$user) {
-//            $user = new User;
-//            $user->name = "Editar L.";
-//            $user->role = 'STAFF';
-//            $user->email = 'staff01@example.com';
-//            $user->password = Hash::make('staffpass');
-//            $user->organization_id = "1";
-//            $user->save();
-//        }
-//
+        $user = User::where('username', 'user01')->first();
+        if (!$user) {
+            $user = new User;
+            $user->name = "user01 user";
+            $user->username = "user01";
+            $user->phone = "0811111112";
+            $user->address = "home";
+            $user->hours = 10;
+            $user->role = 'USER';
+            $user->email = 'user01@gmail.com';
+            $user->password = Hash::make('userpass');
+            $user->save();
+        }
 //        $user = User::where('email', 'staff02@example.com')->first();
 //        if (!$user) {
 //            $user = new User;

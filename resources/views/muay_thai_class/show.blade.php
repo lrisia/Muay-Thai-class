@@ -4,7 +4,7 @@
     <section>
         <div class="m-8">
             <div class="flex items-center container flex-wrap justify-between">
-                <h1 class="text-4xl">จองคลาสเรียนมวยไทย</h1>
+                <h1 class="text-4xl">ตรวจสอบใบจองคลาสเรียน</h1>
                 <div class="flex items-center">
                     <a href="{{ url('/') }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ตรวจสอบคลาสเรียน
@@ -69,7 +69,6 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
                 <form action="{{ route('muay_thai_class.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div hidden id="popup">
@@ -88,27 +87,27 @@
                                         <div id="detail" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                             <div class="form-group">
                                                 <label for="idCourse">ID คลาสเรียนมวยไทย</label>
-                                                <input type="text" class="form-control" id="idCourse" name="idCourse" readonly">
+                                                <input type="text" class="form-control" id="idCourse" name="idCourse" readonly value="{{ $class->id }}">
                                             </di>
                                             <div class="form-group">
                                                 <label for="nameTeacher">ชื่อครูผู้สอน</label>
-                                                <input type="text" class="form-control" id="nameTeacher" name="nameTeacher" readonly >
+                                                <input type="text" class="form-control" id="nameTeacher" name="nameTeacher" readonly value="{{ $class->users[0]->name }}" >
                                             </div>
                                             <div class="form-group">
                                                 <label for="openDate">วันที่เปิด</label>
-                                                <input type="text" class="form-control" id="openDate" name="openDate" readonly>
+                                                <input type="text" class="form-control" id="openDate" name="openDate" readonly value="{{ $class->open_date }}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="closeDate">วันที่ปิด</label>
-                                                <input type="text" class="form-control" id="closeDate" name="closeDate" readonly >
+                                                <input type="text" class="form-control" id="closeDate" name="closeDate" readonly value="{{ $class->close_date }}" >
                                             </div>
                                             <div class="form-group">
                                                 <label for="courseHours">จำนวนชั่วโมง</label>
-                                                <input type="text" class="form-control" id="courseHours" name="courseHours" readonly >
+                                                <input type="text" class="form-control" id="courseHours" name="courseHours" readonly value="{{ $class->total_class_hour }}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="coursePrice">ราคา</label>
-                                                <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly>
+                                                <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly value="{{ $class->price }}" >
                                             </div>
                                         </div>
                                         <button type="submit"
@@ -133,12 +132,7 @@
                     </style>
                     <script>
                         function showPopup(course) {
-                            document.getElementById("idCourse").value = course.id;
-                            document.getElementById("nameTeacher").value = course.users[0].name;
-                            document.getElementById("openDate").value = course.open_date;
-                            document.getElementById("closeDate").value = course.close_date;
-                            document.getElementById("courseHours").value = course.total_class_hour;
-                            document.getElementById("coursePrice").value = course.price;
+                            // document.getElementById("detail").innerHTML = "ต้องการจองคลาสเรียนมวย ID: " + course.id + " ชื่อผู้สอน: " + course.users[0].name + " เริ่มเรียนวันที่: " + course.open_date + " จำนวน " + course.total_class_hour + " ชั่วโมง ราคา " + course.price + " บาท";
                             document.getElementById("popup").hidden = false;
                         }
 
@@ -147,6 +141,7 @@
                         }
                     </script>
                 </form>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

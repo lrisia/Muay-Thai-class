@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\MuayThaiClass;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MuayThaiClassController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,11 @@ class MuayThaiClassController extends Controller
      */
     public function index()
     {
-        $classes = MuayThaiClass::all();
+        $classes = MuayThaiClass::where('status', 'available')->get();
+        if (Auth::user() != null) {
+            $user = User::find(Auth::user()->id);
+            $classes = $classes->whereNotIn('id', $user->muayThaiClasses->pluck(['id'])->all());
+        }
         return view('muay_thai_class.index', ['classes' => $classes]);
     }
 
@@ -36,7 +49,23 @@ class MuayThaiClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = $request->user()->id;
+        $user = User::find($user_id);
+        $class = MuayThaiClass::find($request->get('idCourse'));
+        $class->enrolled_member += 1;
+        if ($class->enrolled_member == $class->max_member) $class->status = 'unavailable';
+        $class->save();
+
+        $user_enrolled_class = $user->muayThaiClasses->pluck(['id'])->all();
+//        if (empty($user_enrolled_class[0])) unset($user_enrolled_class[0]);
+        $user_enrolled_class[] = $request->get('idCourse');
+//        dd($user_enrolled_class,  $request->get('idCourse'), $user->muayThaiClasses);
+        $user->muayThaiClasses()->sync($user_enrolled_class);
+//        $user_in_class = User::get()->pluck(['id'])->all();
+//        $user_in_class[] = $user_id;
+//        dd($user_in_class);
+//        $class->users()->sync($user_in_class);
+        return redirect()->route('muay_thai_class.show', ['muay_thai_class' => $user_id]);
     }
 
     /**
@@ -45,9 +74,14 @@ class MuayThaiClassController extends Controller
      * @param  \App\Models\MuayThaiClass  $muayThaiClass
      * @return \Illuminate\Http\Response
      */
-    public function show(MuayThaiClass $muayThaiClass)
+    public function show(User $user)
     {
-        //
+        $user = Auth::user();
+        $classes = User::find($user->id)->muayThaiClasses;
+        return view('muay_thai_class.show', [
+            'user' => $user,
+            'classes' => $classes
+        ]);
     }
 
     /**
