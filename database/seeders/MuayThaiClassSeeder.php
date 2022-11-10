@@ -15,12 +15,7 @@ class MuayThaiClassSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->line("Generating 15 posts");
+        $this->command->line("Generating 15 classes");
         MuayThaiClass::factory(15)->create();
-        $classes = MuayThaiClass::get();
-        $classes->each(function($class, $key) {
-            $teacher_id = User::where('role', 'TEACHER')->inRandomOrder()->limit(1)->get()->pluck(['id'])->all();
-            $class->users()->sync($teacher_id);
-        });
     }
 }

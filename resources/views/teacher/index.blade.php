@@ -29,7 +29,7 @@
                                 {{ $class->id }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->users[0]->name }}
+                                {{ $class->user->name }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->open_date }}
@@ -52,7 +52,7 @@
                             <td>
                                 <div>
                                     <a href="{{ route('class.attendance', ['id' => $class->id]) }}" class="text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-green-400 hover:bg-green-300">
-                                        เช็คชื่อ
+                                        รายละเอียด
                                     </a>
                                 </div>
                             </td>

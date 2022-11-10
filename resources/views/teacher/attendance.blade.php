@@ -2,9 +2,10 @@
 
 @section('content')
     <section>
+        <form action="{{ route('class.check') }}">
         <div class="m-8">
             <div class="flex items-center container flex-wrap justify-between">
-                <h1 class="text-4xl">คลาสเรียนที่สอน</h1>
+                <h1 class="text-4xl">เช็คชื่อ</h1>
             </div>
             <div class="mt-4 overflow-x-auto relative shadow-md sm:rounded">
                 <table class="w-full text-left text-gray-60 mr-0">
@@ -14,12 +15,12 @@
                         <th scope="col" class="py-3 px-6">ชื่อผู้เรียน</th>
                         <th scope="col" class="py-3 px-6">จำนวนชั่วโมงทั้งหมด</th>
                         <th scope="col" class="py-3 px-6">จำนวนชั่วโมงที่เหลือ</th>
-                        <th scope="col" class="py-3 px-6"></th>
+                        <th scope="col" class="py-3 px-6">เข้าเรียน</th>
                     </tr>
                     </thead>
 
                     <tbody class="m-2">
-                    @foreach($students as $student)
+                    @foreach ($students as $student)
                         <tr class="border-t">
                             <td class="py-3 px-6">
                                 {{ $student->id }}
@@ -28,17 +29,20 @@
                                 {{ $student->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->total_class_hour }}
+                                {{ $classes->total_class_hour }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $student->remaining_hour }}
+                                {{ $classes->total_class_hour - $classes->bookingClasses[0]->studied_hour }}
                             </td>
                             <td>
                                 <div>
-                                    <a class="text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-green-400 hover:bg-green-300">
-                                        เช็คชื่อ
-                                    </a>
+                                    <input id="check" name="" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
                                 </div>
+                                <script>
+                                    var count = {{ $student->id }};
+                                    document.getElementById("check").setAttribute("name", "check_" + count);
+                                    document.getElementById("check").id = "check_" + count;
+                                </script>
                             </td>
                         </tr>
                     @endforeach
@@ -46,61 +50,10 @@
                 </table>
             </div>
         </div>
-        {{--            <form>--}}
-        {{--                <div id="error-msg" class="alert alert-danger">--}}
-        {{--                    <span></span>--}}
-        {{--                </div>--}}
-        {{--                <table id="table" class="table table-bordered">--}}
-        {{--                    <thead>--}}
-        {{--                    <tr>--}}
-        {{--                        <th scope="col"></th>--}}
-        {{--                        <th scope="col">ID</th>--}}
-        {{--                        <th scope="col">ครูผู้สอน</th>--}}
-        {{--                        <th scope="col">ชั่วโมงเรียน</th>--}}
-        {{--                        <th scope="col">จำนวนสมาชิกในคลาสเรียน</th>--}}
-        {{--                        <th scope="col">ราคา</th>--}}
-        {{--                        <th scope="col">วันที่เปิดคลาสเรียน</th>--}}
-        {{--                        <th scope="col">วันที่ปิดคลาสเรียน</th>--}}
-        {{--                        <th scope="col">สถานะ</th>--}}
-        {{--                    </tr>--}}
-        {{--                    </thead>--}}
-        {{--                    <tbody>--}}
-        {{--                    <tr data-th-each="class : ${classes}">--}}
-        {{--                        <td>--}}
-        {{--                            <div class="form-check">--}}
-        {{--                                <input class="form-check-input" type="radio" name="muayThaiClassId" id="flexRadioDefault1" required>--}}
-        {{--                            </div>--}}
-        {{--                        </td>--}}
-        {{--                        <td>ID</td>--}}
-        {{--                        <td>ครูผู้สอน</td>--}}
-        {{--                        <td>ชั่วโมงเรียน</td>--}}
-        {{--                        <td>จำนวนสมาชิกในคลาสเรียน</td>--}}
-        {{--                        <td>ราคา</td>--}}
-        {{--                        <td>วันที่เปิดคลาสเรียน</td>--}}
-        {{--                        <td>วันที่ปิดคลาสเรียน</td>--}}
-        {{--                        <td>สถานะ</td>--}}
-        {{--                    </tr>--}}
-
-        {{--                    </tbody>--}}
-        {{--                </table>--}}
-        {{--                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#bookingDetails">--}}
-        {{--                    จองคลาส--}}
-        {{--                </button>--}}
-        {{--                <div class="modal fade" id="bookingDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--}}
-        {{--                    <div class="modal-dialog">--}}
-        {{--                        <div class="modal-content">--}}
-        {{--                            <div class="modal-header">--}}
-        {{--                                <h1 class="modal-title fs-5" id="staticBackdropLabel">ยืนยันการจองคลาสเรียน</h1>--}}
-        {{--                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-        {{--                            </div>--}}
-        {{--                            <div class="modal-body">--}}
-        {{--                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">ยกเลิก</button>--}}
-        {{--                                <button id="submitButton" type="submit" class="btn btn-dark">ยืนยัน</button>--}}
-        {{--                            </div>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </form>--}}
-        {{--        </div>--}}
+        <div class="flex justify-end mr-8">
+            <button type="submit" class="rounded-lg bg-gray-300 px-4 py-2 hover:bg-gray-200">เสร็จสิ้น</button>
+            <input hidden type="number" value="{{ $classes->id }}" name="class_id">
+        </div>
+        </form>
     </section>
 @endsection

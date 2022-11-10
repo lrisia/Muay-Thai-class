@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookingClass;
 use App\Models\MuayThaiClass;
-use App\Models\Post;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +32,8 @@ class MuayThaiClassController extends Controller
 //                $classes = $classes->where('id', $user->muayThaiClasses->pluck(['id'])->all());
                 return view('teacher.index', ['classes' => $classes]);
             }
-            $classes = $classes->whereNotIn('id', $user->muayThaiClasses->pluck(['id'])->all());
+            $booking = BookingClass::where('user_id', $user->id)->get();
+            $classes = $classes->whereNotIn('id', $booking->pluck(['muay_thai_class_id'])->all());
         }
         return view('muay_thai_class.index', ['classes' => $classes]);
     }
@@ -63,15 +63,10 @@ class MuayThaiClassController extends Controller
         if ($class->enrolled_member == $class->max_member) $class->status = 'unavailable';
         $class->save();
 
-        $user_enrolled_class = $user->muayThaiClasses->pluck(['id'])->all();
-//        if (empty($user_enrolled_class[0])) unset($user_enrolled_class[0]);
-        $user_enrolled_class[] = $request->get('idCourse');
-//        dd($user_enrolled_class,  $request->get('idCourse'), $user->muayThaiClasses);
-        $user->muayThaiClasses()->sync($user_enrolled_class);
-//        $user_in_class = User::get()->pluck(['id'])->all();
-//        $user_in_class[] = $user_id;
-//        dd($user_in_class);
-//        $class->users()->sync($user_in_class);
+        $booking = new BookingClass();
+        $booking->muay_thai_class_id = $class->id;
+        $booking->user_id = $user_id;
+        $booking->save();
         return redirect()->route('muay_thai_class.show', ['muay_thai_class' => $user_id]);
     }
 
@@ -84,7 +79,7 @@ class MuayThaiClassController extends Controller
     public function show(User $user)
     {
         $user = Auth::user();
-        $classes = User::find($user->id)->muayThaiClasses;
+        $classes = BookingClass::where('user_id', $user->id)->get();
         return view('muay_thai_class.show', [
             'user' => $user,
             'classes' => $classes
@@ -125,11 +120,40 @@ class MuayThaiClassController extends Controller
         //
     }
 
-    public function attendance(MuayThaiClass $class) {
-        $students = User::whereIn('id', $class->users->pluck(['id'])->all());
+    /**
+     * @param MuayThaiClass $class
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function attendance(MuayThaiClass $class, $id)
+    {
+        $class = MuayThaiClass::find($id);
+        $student_ids = BookingClass::where('muay_thai_class_id', $id)->where('status', 'paid')->get();
+        $students = User::whereIn('id', $student_ids->pluck(['user_id'])->all())->get();
         return view('teacher.attendance', [
-            'students', $students,
-            'class', $class
+            'students' => $students,
+            'classes' => $class,
         ]);
+    }
+
+    public function saveAttendance(Request $request) {
+        $class_id = $request->get('class_id');
+//        dd($request->all());
+        foreach ($request->all() as $key => $value) {
+            if (!str_contains($key, 'check')) continue;
+            $user_id = explode("_", $key)[1];
+            $booking = BookingClass::where('user_id', $user_id)->where('muay_thai_class_id', $class_id)->first();
+            $booking->studied_hour += 1;
+            if ($booking->studied_hour == $booking->muayThaiClass->total_class_hour) $booking->status = "finish";
+            $booking->save();
+        }
+        return redirect()->route('muay_thai_class.index');
+    }
+
+    public function buyCourse(MuayThaiClass $class, $id) {
+        $booking = BookingClass::find($id);
+        $booking->status = "paid";
+        $booking->save();
+        return redirect()->route('muay_thai_class.show', ['muay_thai_class' => $id]);
     }
 }

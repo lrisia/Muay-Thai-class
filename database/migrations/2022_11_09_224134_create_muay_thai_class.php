@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('open_date');
             $table->date('close_date');
             $table->integer('price');
+            $table->foreignIdFor(\App\Models\User::class);
             $table->timestamps();
         });
     }

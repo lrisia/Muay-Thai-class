@@ -43,7 +43,11 @@ class User extends Authenticatable
     ];
 
     public function muayThaiClasses() {
-        return $this->belongsToMany(MuayThaiClass::class);
+        return $this->hasMany(MuayThaiClass::class);
+    }
+
+    public function bookingClasses() {
+        return $this->hasMany(BookingClass::class);
     }
 
     public function isAdmin()

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('muay_thai_class_user', function (Blueprint $table) {
+        Schema::create('booking_classes', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\MuayThaiClass::class);
             $table->foreignIdFor(\App\Models\User::class);
             $table->integer('studied_hour')->default(0);
-            $table->foreignIdFor(\App\Models\MuayThaiClass::class);
+            $table->string('status')->default('in_progress');
+            $table->date('date')->default(\Carbon\Carbon::today());
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('muay_thai_class_user');
+        Schema::dropIfExists('booking_class');
     }
 };

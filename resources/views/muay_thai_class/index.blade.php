@@ -40,7 +40,7 @@
                                 {{ $class->id }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->users[0]->name }}
+                                {{ $class->user->name }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->open_date }}
@@ -61,12 +61,14 @@
                                 {{ $class->max_member }}
                             </td>
                             <td>
+                                @auth()
                                 <div>
                                     <button class="text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-green-400 hover:bg-green-300"
                                        onclick="showPopup({{ $class }})">
                                         จอง
                                     </button>
                                 </div>
+                                @endauth
                             </td>
                         </tr>
                     @endforeach
@@ -133,7 +135,7 @@
                     <script>
                         function showPopup(course) {
                             document.getElementById("idCourse").value = course.id;
-                            document.getElementById("nameTeacher").value = course.users[0].name;
+                            document.getElementById("nameTeacher").value = course.user.name;
                             document.getElementById("openDate").value = course.open_date;
                             document.getElementById("closeDate").value = course.close_date;
                             document.getElementById("courseHours").value = course.total_class_hour;

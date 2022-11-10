@@ -27,8 +27,7 @@
                             <th scope="col" class="py-3 px-6">วันที่ปิด</th>
                             <th scope="col" class="py-3 px-6">จำนวนชั่วโมง</th>
                             <th scope="col" class="py-3 px-6">ราคา</th>
-                            <th scope="col" class="py-3 px-6">จำนวนคนที่ลงแล้ว</th>
-                            <th scope="col" class="py-3 px-6">จำนวนที่เปิดรับ</th>
+                            <th scope="col" class="py-3 px-6">สถานะ</th>
                             <th scope="col" class="py-3 px-6"></th>
                         </tr>
                     </thead>
@@ -37,111 +36,126 @@
                     @foreach($classes as $class)
                         <tr class="border-t">
                             <td class="py-3 px-6">
-                                {{ $class->id }}
+                                {{ $class->muay_thai_class_id }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->users[0]->name }}
+                                {{ $class->MuayThaiClass->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->open_date }}
+                                {{ $class->MuayThaiClass->open_date }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->close_date }}
+                                {{ $class->MuayThaiClass->close_date }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->total_class_hour }}
+                                {{ $class->MuayThaiClass->total_class_hour }}
                             </td>
                             <td class="py-3 px-6">
-                                ฿ {{ $class->price }}
+                                ฿ {{ $class->MuayThaiClass->price }}
                             </td>
+                            @if ($class->status == "in_progress")
                             <td class="py-3 px-6">
-                                {{ $class->enrolled_member }}
-                            </td>
-                            <td class="py-3 px-6">
-                                {{ $class->max_member }}
+                                รอดำเนินการ
                             </td>
                             <td>
                                 <div>
                                     <button class="text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-green-400 hover:bg-green-300"
-                                       onclick="showPopup({{ $class }})">
-                                        จอง
+                                            onclick="showPopup({{ $class }})">
+                                        ชำระเงิน
                                     </button>
                                 </div>
                             </td>
-                        </tr>
-                <form action="{{ route('muay_thai_class.store') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div hidden id="popup">
-                        <div id="popup-modal" tabindex="-1"
-                             class="shadow-lg overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"
-                             aria-modal="true" role="dialog">
-                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <button type="button"
-                                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-                                            data-modal-toggle="popup-modal">
-                                        <!-- <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> -->
+                            @elseif ($class->status == "paid")
+                            <td class="py-3 px-6">
+                                ชำระเงินแล้ว
+                            </td>
+                            <td>
+                                <div>
+                                    <button class="cursor-default text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-blue-400">
+                                        ชำระสำเร็จ
                                     </button>
-                                    <div class="p-6 text-center">
-                                        <!-- <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> -->
-                                        <div id="detail" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                            <div class="form-group">
-                                                <label for="idCourse">ID คลาสเรียนมวยไทย</label>
-                                                <input type="text" class="form-control" id="idCourse" name="idCourse" readonly value="{{ $class->id }}">
-                                            </di>
-                                            <div class="form-group">
-                                                <label for="nameTeacher">ชื่อครูผู้สอน</label>
-                                                <input type="text" class="form-control" id="nameTeacher" name="nameTeacher" readonly value="{{ $class->users[0]->name }}" >
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="openDate">วันที่เปิด</label>
-                                                <input type="text" class="form-control" id="openDate" name="openDate" readonly value="{{ $class->open_date }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="closeDate">วันที่ปิด</label>
-                                                <input type="text" class="form-control" id="closeDate" name="closeDate" readonly value="{{ $class->close_date }}" >
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="courseHours">จำนวนชั่วโมง</label>
-                                                <input type="text" class="form-control" id="courseHours" name="courseHours" readonly value="{{ $class->total_class_hour }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="coursePrice">ราคา</label>
-                                                <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly value="{{ $class->price }}" >
-                                            </div>
-                                        </div>
-                                        <button type="submit"
-                                                class="text-white bg-green-400 hover:bg-green-300 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                                            ตกลง
-                                        </button>
+                                </div>
+                            </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                    <form action="{{ route('class.pay', ['id' => 1]) }}" method="get">
+                        @csrf
+                        <div hidden id="popup">
+                            <div id="popup-modal" tabindex="-1"
+                                 class="shadow-lg overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                 aria-modal="true" role="dialog">
+                                <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                         <button type="button"
-                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
-                                                onclick="hidePopup()">ยกเลิก
+                                                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                                data-modal-toggle="popup-modal">
+                                            <!-- <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> -->
                                         </button>
+                                        <div class="p-6 text-center">
+                                            <!-- <svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> -->
+                                            <div id="detail" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                <div class="form-group">
+                                                    <label for="idCourse">ID คลาสเรียนมวยไทย</label>
+                                                    <input type="text" class="form-control" id="idCourse" name="idCourse" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nameTeacher">ชื่อครูผู้สอน</label>
+                                                    <input type="text" class="form-control" id="nameTeacher" name="nameTeacher" readonly >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="openDate">วันที่เปิด</label>
+                                                    <input type="text" class="form-control" id="openDate" name="openDate" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="closeDate">วันที่ปิด</label>
+                                                    <input type="text" class="form-control" id="closeDate" name="closeDate" readonly >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="courseHours">จำนวนชั่วโมง</label>
+                                                    <input type="text" class="form-control" id="courseHours" name="courseHours" readonly >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="coursePrice">ราคา</label>
+                                                    <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly>
+                                                </div>
+                                            </div>
+                                            <button type="submit"
+                                                    class="text-white bg-green-400 hover:bg-green-300 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                ชำระเงิน
+                                            </button>
+                                            <button type="button"
+                                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
+                                                    onclick="hidePopup()">ยกเลิก
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
-                    <style>
-                        .form-control {
-                            border-radius: 9999px;
-                            margin-bottom: 3px;
-                        }
-                    </style>
-                    <script>
-                        function showPopup(course) {
-                            // document.getElementById("detail").innerHTML = "ต้องการจองคลาสเรียนมวย ID: " + course.id + " ชื่อผู้สอน: " + course.users[0].name + " เริ่มเรียนวันที่: " + course.open_date + " จำนวน " + course.total_class_hour + " ชั่วโมง ราคา " + course.price + " บาท";
-                            document.getElementById("popup").hidden = false;
-                        }
+                        <style>
+                            .form-control {
+                                border-radius: 9999px;
+                                margin-bottom: 3px;
+                            }
+                        </style>
+                        <script>
+                            function showPopup(course) {
+                                console.log(course)
+                                document.getElementById("idCourse").value = course.muay_thai_class.id;
+                                document.getElementById("nameTeacher").value = course.muay_thai_class.user.name;
+                                document.getElementById("openDate").value = course.muay_thai_class.open_date;
+                                document.getElementById("closeDate").value = course.muay_thai_class.close_date;
+                                document.getElementById("courseHours").value = course.muay_thai_class.total_class_hour;
+                                document.getElementById("coursePrice").value = course.muay_thai_class.price;
+                                document.getElementById("popup").hidden = false;
+                            }
 
-                        function hidePopup() {
-                            document.getElementById("popup").hidden = true;
-                        }
-                    </script>
-                </form>
-                    @endforeach
+                            function hidePopup() {
+                                document.getElementById("popup").hidden = true;
+                            }
+                        </script>
+                    </form>
                     </tbody>
                 </table>
             </div>

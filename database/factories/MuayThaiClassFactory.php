@@ -27,6 +27,7 @@ class MuayThaiClassFactory extends Factory
             'open_date' => now()->subSeconds(fake()->numberBetween(100, 10000)),
             'close_date' => now()->subSeconds(fake()->numberBetween(100, 10000)),
             'price' => fake()->numberBetween(1000,8000),
+            'user_id' => User::where('role', 'TEACHER')->inRandomOrder()->get()[0]->id
         ];
     }
 }
