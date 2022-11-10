@@ -42,10 +42,10 @@
                                 {{ $class->MuayThaiClass->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->open_date }}
+                            {{ date('d-m-Y', strtotime($class->MuayThaiClass->open_date)) }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->close_date }}
+                            {{ date('d-m-Y', strtotime($class->MuayThaiClass->close_date)) }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->MuayThaiClass->total_class_hour }}
@@ -142,10 +142,23 @@
                         <script>
                             function showPopup(course) {
                                 console.log(course)
+
+                                const open_date = course.muay_thai_class.open_date.split("-");
+                                console.log(open_date);
+                                let temp = open_date[0];
+                                open_date[0] = open_date[2];
+                                open_date[2] = temp;
+                                open_date_str = open_date[0]+"-"+open_date[1]+"-"+open_date[2];
+                            
+                                const close_date = course.muay_thai_class.close_date.split("-");
+                                temp = close_date[0];
+                                close_date[0] = close_date[2];
+                                close_date[2] = temp;
+                                close_date_str = close_date[0]+"-"+close_date[1]+"-"+close_date[2];
                                 document.getElementById("idCourse").value = course.muay_thai_class.id;
                                 document.getElementById("nameTeacher").value = course.muay_thai_class.user.name;
-                                document.getElementById("openDate").value = course.muay_thai_class.open_date;
-                                document.getElementById("closeDate").value = course.muay_thai_class.close_date;
+                                document.getElementById("openDate").value = open_date_str;
+                                document.getElementById("closeDate").value = close_date_str;
                                 document.getElementById("courseHours").value = course.muay_thai_class.total_class_hour;
                                 document.getElementById("coursePrice").value = course.muay_thai_class.price;
                                 document.getElementById("popup").hidden = false;

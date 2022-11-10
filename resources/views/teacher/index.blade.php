@@ -32,10 +32,10 @@
                                 {{ $class->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->open_date }}
+                                {{ date('d-m-Y', strtotime($class->open_date)) }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->close_date }}
+                                {{ date('d-m-Y', strtotime($class->close_date)) }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->total_class_hour }}

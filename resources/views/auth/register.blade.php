@@ -2,8 +2,8 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <span class="self-center text-xl font-semibold whitespace-nowrap">
-                    <p class="inline-flex text-3xl">&mu;</p>niversity Report
+                <span class="self-center text-3xl font-semibold whitespace-nowrap">
+                    <p class="inline-flex text-3xl"></p>Muay Thai Class
                 </span>
             </a>
         </x-slot>
@@ -48,9 +48,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                
 
                 <x-button class="ml-4">
                     {{ __('Register') }}
