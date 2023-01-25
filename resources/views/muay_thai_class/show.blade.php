@@ -12,7 +12,7 @@
                     <a href="{{ route('muay_thai_class.show', ['muay_thai_class' => 1]) }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ตรวจสอบใบจอง
                     </a>
-                    <a href="" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
+                    <a href="{{ route('class.receipt') }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ใบเสร็จ
                     </a>
                 </div>
@@ -42,10 +42,10 @@
                                 {{ $class->MuayThaiClass->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->open_date }}
+                            {{ date('d-m-Y', strtotime($class->MuayThaiClass->open_date)) }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->MuayThaiClass->close_date }}
+                            {{ date('d-m-Y', strtotime($class->MuayThaiClass->close_date)) }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->MuayThaiClass->total_class_hour }}
@@ -53,9 +53,9 @@
                             <td class="py-3 px-6">
                                 ฿ {{ $class->MuayThaiClass->price }}
                             </td>
-                            @if ($class->status == "in_progress")
+                            @if ($class->status == "accepted")
                             <td class="py-3 px-6">
-                                รอดำเนินการ
+                                รอชำระเงิน
                             </td>
                             <td>
                                 <div>
@@ -65,6 +65,17 @@
                                     </button>
                                 </div>
                             </td>
+                            @elseif ($class->status == "in_progress")
+                                <td class="py-3 px-6">
+                                    รอดำเนินการ
+                                </td>
+                                <td>
+                                    <div>
+                                        <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200">
+                                            ชำระเงิน
+                                        </button>
+                                    </div>
+                                </td>
                             @elseif ($class->status == "paid")
                             <td class="py-3 px-6">
                                 ชำระเงินแล้ว
@@ -73,6 +84,17 @@
                                 <div>
                                     <button class="cursor-default text-white text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-blue-400">
                                         ชำระสำเร็จ
+                                    </button>
+                                </div>
+                            </td>
+                            @elseif($class->status == "declined")
+                            <td class="py-3 px-6">
+                                ปฏิเสธการจอง
+                            </td>
+                            <td>
+                                <div>
+                                    <button class="cursor-default text-gray-400 text-sm py-2 px-4 m-3 ml-0.5 rounded-full bg-gray-200">
+                                        ชำระเงิน
                                     </button>
                                 </div>
                             </td>
@@ -120,6 +142,7 @@
                                                     <input type="text" class="form-control" id="coursePrice" name="coursePrice" readonly>
                                                 </div>
                                             </div>
+                                            <input type="text" name="id" id="id" hidden>
                                             <button type="submit"
                                                     class="text-white bg-green-400 hover:bg-green-300 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                 ชำระเงิน
@@ -142,13 +165,27 @@
                         <script>
                             function showPopup(course) {
                                 console.log(course)
+
+                                const open_date = course.muay_thai_class.open_date.split("-");
+                                console.log(open_date);
+                                let temp = open_date[0];
+                                open_date[0] = open_date[2];
+                                open_date[2] = temp;
+                                open_date_str = open_date[0]+"-"+open_date[1]+"-"+open_date[2];
+                            
+                                const close_date = course.muay_thai_class.close_date.split("-");
+                                temp = close_date[0];
+                                close_date[0] = close_date[2];
+                                close_date[2] = temp;
+                                close_date_str = close_date[0]+"-"+close_date[1]+"-"+close_date[2];
                                 document.getElementById("idCourse").value = course.muay_thai_class.id;
                                 document.getElementById("nameTeacher").value = course.muay_thai_class.user.name;
-                                document.getElementById("openDate").value = course.muay_thai_class.open_date;
-                                document.getElementById("closeDate").value = course.muay_thai_class.close_date;
+                                document.getElementById("openDate").value = open_date_str;
+                                document.getElementById("closeDate").value = close_date_str;
                                 document.getElementById("courseHours").value = course.muay_thai_class.total_class_hour;
                                 document.getElementById("coursePrice").value = course.muay_thai_class.price;
                                 document.getElementById("popup").hidden = false;
+                                document.getElementById("id").value = course.id;
                             }
 
                             function hidePopup() {

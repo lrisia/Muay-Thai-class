@@ -12,7 +12,7 @@
                     <a href="{{ route('muay_thai_class.show', ['muay_thai_class' => 1]) }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ตรวจสอบใบจอง
                     </a>
-                    <a href="" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
+                    <a href="{{ route('class.receipt') }}" class="bg-gray-300 p-3 rounded-full mx-2 py-2 hover:bg-gray-200">
                         ใบเสร็จ
                     </a>
                 </div>
@@ -43,10 +43,10 @@
                                 {{ $class->user->name }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->open_date }}
+                                {{ date('d-m-Y', strtotime($class->open_date)) }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $class->close_date }}
+                                {{ date('d-m-Y', strtotime($class->close_date)) }}
                             </td>
                             <td class="py-3 px-6">
                                 {{ $class->total_class_hour }}
@@ -134,10 +134,22 @@
                     </style>
                     <script>
                         function showPopup(course) {
+                            const open_date = course.open_date.split("-");
+                            console.log(open_date);
+                            let temp = open_date[0];
+                            open_date[0] = open_date[2];
+                            open_date[2] = temp;
+                            open_date_str = open_date[0]+"-"+open_date[1]+"-"+open_date[2];
+                            
+                            const close_date = course.close_date.split("-");
+                            temp = close_date[0];
+                            close_date[0] = close_date[2];
+                            close_date[2] = temp;
+                            close_date_str = close_date[0]+"-"+close_date[1]+"-"+close_date[2];
                             document.getElementById("idCourse").value = course.id;
                             document.getElementById("nameTeacher").value = course.user.name;
-                            document.getElementById("openDate").value = course.open_date;
-                            document.getElementById("closeDate").value = course.close_date;
+                            document.getElementById("openDate").value =  open_date_str;
+                            document.getElementById("closeDate").value = close_date_str;
                             document.getElementById("courseHours").value = course.total_class_hour;
                             document.getElementById("coursePrice").value = course.price;
                             document.getElementById("popup").hidden = false;
