@@ -148,6 +148,7 @@ class MuayThaiClassController extends Controller
             $user_id = explode("_", $key)[1];
             $booking = BookingClass::where('user_id', $user_id)->where('muay_thai_class_id', $class_id)->first();
             $booking->studied_hour += 1;
+//            dd($booking->studied_hour);
             if ($booking->studied_hour == $booking->muayThaiClass->total_class_hour) $booking->status = "finish";
             $booking->save();
         }
@@ -165,7 +166,7 @@ class MuayThaiClassController extends Controller
 //        dd(BookingClass::where('muay_thai_class_id', $request->get('id'))->where('user_id', Auth::user()->id)->first());
         $receipt->booking_class_id = BookingClass::where('muay_thai_class_id', $request->get('idCourse'))->where('user_id', Auth::user()->id)->first()->id;
         $receipt->save();
-        return redirect()->route('muay_thai_class.show', ['muay_thai_class' => $id]);
+        return redirect()->route('class.receipt');
     }
 
     public function receipt() {
@@ -176,9 +177,9 @@ class MuayThaiClassController extends Controller
     }
 
     public function showReceipt($id) {
-        $receipt = Receipt::where('id', $id)->first();
-        $book = BookingClass::where('id', $receipt->booking_class_id)->first();
+        $book = BookingClass::where('id', $id)->first();
         $class = MuayThaiClass::where('id', $book->muay_thai_class_id)->first();
+        $receipt = Receipt::where('booking_class_id', $id)->first();
         $price = $this->convert($class->price);
         return view('muay_thai_class.bill', [
             'receipt' => $receipt,

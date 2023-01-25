@@ -98,9 +98,7 @@ class ManagerController extends Controller
         $book = BookingClass::find($request->get('bookingId'));
         if ($request->get('n') === "false") {
             $book->status = "declined";
-            dd($book->muayThaiClass->enrolled_member);
             $book->muayThaiClass->enrolled_member =  $book->muayThaiClass->enrolled_member - 1;
-            dd($book->muayThaiClass->enrolled_member);
 //            dd($book->muayThaiClass->enrolled_member);
         } else {
             $book->status = "accepted";

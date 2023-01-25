@@ -32,7 +32,8 @@
                                 {{ $classes->total_class_hour }}
                             </td>
                             <td class="py-3 px-6">
-                                {{ $classes->total_class_hour - $classes->bookingClasses[0]->studied_hour }}
+                                {{ $classes->total_class_hour - \App\Models\BookingClass::where('user_id', $student->id)->where('muay_thai_class_id', $classes->id)->first()->studied_hour }}
+{{--                                <a onclick="debug({{ $classes }})">+</a>--}}
                             </td>
                             <td>
                                 <div>
@@ -42,6 +43,10 @@
                                     var count = {{ $student->id }};
                                     document.getElementById("check").setAttribute("name", "check_" + count);
                                     document.getElementById("check").id = "check_" + count;
+
+                                    function debug(n) {
+                                        console.log(n)
+                                    }
                                 </script>
                             </td>
                         </tr>

@@ -16,45 +16,42 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::where('username', 'Irisia')->first();
+        $user = User::where('email', 'irisia@gmail.com')->first();
         if (!$user) {
             $user = new User;
-            $user->name = "Irisia Lightsky";
-            $user->username = "Irisia";
+            $user->name = "Teacher teacher";
             $user->phone = "0811111111";
             $user->address = "home";
             $user->hours = 10;
             $user->role = 'TEACHER';
-            $user->email = 'irisia@gmail.com';
-            $user->password = Hash::make('teachpass');
+            $user->email = 'teacher@gmail.com';
+            $user->password = Hash::make('password');
             $user->save();
         }
 
-        $user = User::where('username', 'user01')->first();
+        $user = User::where('email', 'user01@gmail.com')->first();
         if (!$user) {
             $user = new User;
-            $user->name = "user01 user";
-            $user->username = "user01";
+            $user->name = "User user";
             $user->phone = "0811111112";
             $user->address = "home";
             $user->hours = 10;
             $user->role = 'USER';
-            $user->email = 'user01@gmail.com';
-            $user->password = Hash::make('userpass');
+            $user->email = 'user@gmail.com';
+            $user->password = Hash::make('password');
             $user->save();
         }
 
-        $user = User::where('username', 'manager')->first();
+        $user = User::where('email', 'manager@gmail.com')->first();
         if (!$user) {
             $user = new User;
             $user->name = "Anya F.";
-            $user->username = "Anya";
             $user->phone = "0811111113";
             $user->address = "admin home";
             $user->hours = 1;
             $user->role = 'MANAGER';
             $user->email = 'manager@gmail.com';
-            $user->password = Hash::make('managerpass');
+            $user->password = Hash::make('password');
             $user->save();
         }
 

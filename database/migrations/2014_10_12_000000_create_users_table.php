@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id(); // primary key integer 'id' auto_increment
             $table->string('name', 50); // varchar(255)
-            $table->string('username', 20)->unique(); // varchar(255)
-            $table->string('email', 30)->nullable(); // chaining method
-            $table->string('phone', 20)->unique();
+            $table->string('email', 30)->nullable()->unique(); // chaining method
+            $table->string('phone', 20)->unique()->nullable();
             $table->string('password'); // varchar(60)
             $table->string('role')->default('USER');
-            $table->string('address');
+            $table->string('address')->nullable();;
             $table->integer('hours')->default(0);
             $table->timestamp('email_verified_at')->nullable(); // timestamp, datetime
             $table->rememberToken(); // 'remember_token
